@@ -1,6 +1,6 @@
-# js13kgames 2019
+# Troposphere
 
-An entry to the [JS13kGames 2019 competition](https://2019.js13kgames.com/).
+Troposphere was originally [an entry](https://js13kgames.com/entries/troposphere) to the [JS13kGames 2019 competition](https://2019.js13kgames.com/). This repository is for additional development. See [js13kgames2019 repository](https://github.com/sz1521/js13kgames2019) for the js13k version.
 
 ## Authors
 

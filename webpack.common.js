@@ -10,7 +10,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "js13k Game",
+      title: "Troposphere",
       template: "src/index.html",
       minify: isProduction && {
         collapseWhitespace: true,
