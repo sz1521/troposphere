@@ -29,7 +29,7 @@ const mainTune = document.createElement("audio");
 const hitfx = document.createElement("audio");
 const endTune = document.createElement("audio");
 
-export const initMusicPlayer = (audioTrack, tune, isLooped) => {
+const initMusicPlayer = (audioTrack, tune, isLooped) => {
   return new Promise(resolve => {
     var songplayer = new CPlayer();
     // Initialize music generation (player).
@@ -54,7 +54,7 @@ export const initMusicPlayer = (audioTrack, tune, isLooped) => {
   });
 };
 
-export const initialize = () => {
+export const initializeMusic = () => {
   return Promise.all([
     initMusicPlayer(mainTune, song, true),
     initMusicPlayer(hitfx, hitSfx, false),
