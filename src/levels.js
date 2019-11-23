@@ -139,4 +139,5 @@ export const createLevel = (level, number) => {
 
   const createFunction = levelCreations[number];
   createFunction(level);
+  level.number = number;
 };

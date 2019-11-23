@@ -92,6 +92,8 @@ export class Level {
   }
 
   render(context, camera) {
+    this.renderBackground(context);
+
     for (let i = 0; i < this.clouds0.length; i++) {
       let cloud0 = this.clouds0[i];
       cloud0.render();
@@ -144,6 +146,32 @@ export class Level {
       context.stroke();
       context.restore();
     }
+  }
+
+  renderBackground(context) {
+    let gradient = context.createLinearGradient(0, 0, 0, this.height);
+
+    switch (this.number) {
+      case 1: {
+        gradient.addColorStop(0, "rgb(80,80,200)");
+        gradient.addColorStop(1, "rgb(100,100,255)");
+        break;
+      }
+      case 2: {
+        gradient.addColorStop(0, "rgb(255,200,0)");
+        gradient.addColorStop(1, "rgb(80,80,200)");
+        break;
+      }
+      case 3: {
+        gradient.addColorStop(0, "rgb(0,0,25");
+        gradient.addColorStop(0.5, "rgb(255,0,0)");
+        gradient.addColorStop(1, "rgb(255,200,0)");
+        break;
+      }
+    }
+
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, this.width, this.height);
   }
 
   createCloud(y, z, opacity) {

@@ -72,33 +72,10 @@ const createGameLoop = () => {
     },
 
     render() {
-      let gradient;
       context.save();
       context.translate(canvas.width / 2, canvas.height / 2);
       context.scale(camera.zoom, camera.zoom);
       context.translate(-camera.x, -camera.y);
-      gradient = context.createLinearGradient(0, 0, 0, level.height);
-
-      switch (levelNumber) {
-        case 1: {
-          gradient.addColorStop(0, "rgb(80,80,200)");
-          gradient.addColorStop(1, "rgb(100,100,255)");
-          break;
-        }
-        case 2: {
-          gradient.addColorStop(0, "rgb(255,200,0)");
-          gradient.addColorStop(1, "rgb(80,80,200)");
-          break;
-        }
-        case 3: {
-          gradient.addColorStop(0, "rgb(0,0,25");
-          gradient.addColorStop(0.5, "rgb(255,0,0)");
-          gradient.addColorStop(1, "rgb(255,200,0)");
-          break;
-        }
-      }
-      context.fillStyle = gradient;
-      context.fillRect(0, 0, level.width, level.height);
 
       level.render(context, camera);
 
