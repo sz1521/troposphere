@@ -24,7 +24,7 @@
 
 import { Sprite } from "kontra";
 import { playTune } from "./music.js";
-import { imageFromSvg, random, randomInt } from "./utils.js";
+import { imageFromSvg, random } from "./utils.js";
 import { createEnemy } from "./enemy.js";
 import houseSvg from "./images/house.svg";
 
@@ -266,7 +266,7 @@ export class Level {
       color2: "rgb(80,20,20)",
       width: 30,
       height: this.height,
-      stepGap: random(25) + 5,
+      stepGap: 15,
 
       render: function() {
         const stepCount = this.height / this.stepGap + 1;
@@ -389,22 +389,12 @@ export class Level {
     }
   }
 
-  addLadders(platform, height, count) {
-    // Segments so that ladders don't appear too close together.
-    // (although now two ladder can be in the exact same spot)
-    const segmentCount = 6;
-    const segmentWidth = platform.width / segmentCount;
-
-    for (let j = 0; j < count; j++) {
-      let ladder = this.createLadder();
-      ladder.height = height;
-      ladder.x =
-        platform.x +
-        Math.floor(random(segmentCount)) * segmentWidth +
-        segmentWidth / 2;
-      ladder.y = platform.y;
-      this.ladders.push(ladder);
-    }
+  addLadder(platform, height) {
+    let ladder = this.createLadder();
+    ladder.height = height;
+    ladder.x = platform.x + 20;
+    ladder.y = platform.y;
+    this.ladders.push(ladder);
   }
 
   createTower(x, floorCount) {
@@ -427,7 +417,7 @@ export class Level {
         platform.y = floorTop;
         this.platforms.push(platform);
 
-        this.addLadders(platform, floorHeight, randomInt(1, 4));
+        this.addLadder(platform, floorHeight);
 
         if (random() < 0.7) {
           let enemy = createEnemy(platform);
@@ -446,14 +436,13 @@ export class Level {
         p1.x = floorLeft;
         p1.y = floorTop;
         this.platforms.push(p1);
-        this.addLadders(p1, floorHeight, 1);
+        this.addLadder(p1, floorHeight);
 
         let p2 = this.createPlatform(false);
         p2.width = lessWidth;
         p2.x = floorRight - lessWidth;
         p2.y = floorTop;
         this.platforms.push(p2);
-        this.addLadders(p2, floorHeight, 1);
 
         isHoleOnPreviousLayer = true;
       }
