@@ -134,6 +134,19 @@ const listenKeys = () => {
     levelNumber = 0;
     startLevel(levelNumber);
   });
+
+  // Keys for debugging
+  bindKeys(["1"], () => {
+    camera.follow(level.player);
+  });
+  bindKeys(["2"], () => {
+    camera.zoomToLevel();
+  });
+  bindKeys(["n"], () => {
+    if (levelNumber < 4) levelNumber++;
+    else levelNumber = 1;
+    startLevel(levelNumber);
+  });
 };
 
 const startLevel = number => {
