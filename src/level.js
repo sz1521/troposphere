@@ -24,7 +24,7 @@
 
 import { Sprite } from "kontra";
 import { playTune } from "./music.js";
-import { imageFromSvg, random, randomInt } from "./utils.js";
+import { imageFromSvg, random } from "./utils.js";
 import { createEnemy } from "./enemy.js";
 import houseSvg from "./images/house.svg";
 
@@ -175,8 +175,10 @@ export class Level {
   }
 
   createCloud(y, z, opacity) {
+    const level = this;
+
     return Sprite({
-      x: Math.random() * this.width * (5 / 4) - this.width / 4,
+      x: Math.random() * level.width * (5 / 4) - level.width / 4,
       y:
         z === 0
           ? y + (Math.random() * 200 - 102120)
@@ -188,7 +190,7 @@ export class Level {
 
       update: function() {
         this.advance();
-        if (this.x - 300 > this.width) {
+        if (this.x - 300 > level.width) {
           this.x = -600;
         }
       },
@@ -265,8 +267,8 @@ export class Level {
       color: "rgb(100,60,60)",
       color2: "rgb(80,20,20)",
       width: 30,
-      height: this.height,
-      stepGap: random(25) + 5,
+      height: 100,
+      stepGap: 15,
 
       render: function() {
         const stepCount = this.height / this.stepGap + 1;
@@ -331,12 +333,14 @@ export class Level {
   }
 
   createRoof() {
+    const level = this;
+
     return Sprite({
       color: "darkgray",
-      width: this.width,
+      width: level.width,
       height: 30,
       x: 0,
-      y: this.height - 30,
+      y: level.height - 30,
 
       render: function() {
         let cx = this.context;
@@ -389,22 +393,12 @@ export class Level {
     }
   }
 
-  addLadders(platform, height, count) {
-    // Segments so that ladders don't appear too close together.
-    // (although now two ladder can be in the exact same spot)
-    const segmentCount = 6;
-    const segmentWidth = platform.width / segmentCount;
-
-    for (let j = 0; j < count; j++) {
-      let ladder = this.createLadder();
-      ladder.height = height;
-      ladder.x =
-        platform.x +
-        Math.floor(random(segmentCount)) * segmentWidth +
-        segmentWidth / 2;
-      ladder.y = platform.y;
-      this.ladders.push(ladder);
-    }
+  addLadder(platform, height) {
+    let ladder = this.createLadder();
+    ladder.height = height;
+    ladder.x = platform.x + 20;
+    ladder.y = platform.y;
+    this.ladders.push(ladder);
   }
 
   createTower(x, floorCount) {
@@ -427,7 +421,7 @@ export class Level {
         platform.y = floorTop;
         this.platforms.push(platform);
 
-        this.addLadders(platform, floorHeight, randomInt(1, 4));
+        this.addLadder(platform, floorHeight);
 
         if (random() < 0.7) {
           let enemy = createEnemy(platform);
@@ -446,14 +440,13 @@ export class Level {
         p1.x = floorLeft;
         p1.y = floorTop;
         this.platforms.push(p1);
-        this.addLadders(p1, floorHeight, 1);
+        this.addLadder(p1, floorHeight);
 
         let p2 = this.createPlatform(false);
         p2.width = lessWidth;
         p2.x = floorRight - lessWidth;
         p2.y = floorTop;
         this.platforms.push(p2);
-        this.addLadders(p2, floorHeight, 1);
 
         isHoleOnPreviousLayer = true;
       }
