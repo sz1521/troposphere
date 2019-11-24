@@ -130,6 +130,15 @@ const renderHelpTexts = context => {
 };
 
 const listenKeys = () => {
+  bindKeys(["enter"], () => {
+    if (levelNumber === 0) {
+      levelNumber = 1;
+      startLevel(levelNumber);
+    } else if (level.isFailed()) {
+      playTune("main");
+      startLevel(levelNumber);
+    }
+  });
   bindKeys(["esc"], () => {
     levelNumber = 0;
     startLevel(levelNumber);
@@ -159,7 +168,6 @@ const startLevel = number => {
   gameFinished = false;
 
   createLevel(level, number);
-  listenKeys();
 
   if (number === 0) {
     gameLoop = createStartScreenLoop();
@@ -215,13 +223,5 @@ export const initializeGame = (canvasReference, contextReference) => {
 export const startGame = () => {
   state = GAME_STATE_RUNNING;
 
-  bindKeys(["enter"], () => {
-    if (levelNumber === 0) {
-      levelNumber = 1;
-      startLevel(levelNumber);
-    } else if (level.isFailed()) {
-      playTune("main");
-      startLevel(levelNumber);
-    }
-  });
+  listenKeys();
 };
