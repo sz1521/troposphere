@@ -175,8 +175,10 @@ export class Level {
   }
 
   createCloud(y, z, opacity) {
+    const level = this;
+
     return Sprite({
-      x: Math.random() * this.width * (5 / 4) - this.width / 4,
+      x: Math.random() * level.width * (5 / 4) - level.width / 4,
       y:
         z === 0
           ? y + (Math.random() * 200 - 102120)
@@ -188,7 +190,7 @@ export class Level {
 
       update: function() {
         this.advance();
-        if (this.x - 300 > this.width) {
+        if (this.x - 300 > level.width) {
           this.x = -600;
         }
       },
@@ -265,7 +267,7 @@ export class Level {
       color: "rgb(100,60,60)",
       color2: "rgb(80,20,20)",
       width: 30,
-      height: this.height,
+      height: 100,
       stepGap: 15,
 
       render: function() {
@@ -331,12 +333,14 @@ export class Level {
   }
 
   createRoof() {
+    const level = this;
+
     return Sprite({
       color: "darkgray",
-      width: this.width,
+      width: level.width,
       height: 30,
       x: 0,
-      y: this.height - 30,
+      y: level.height - 30,
 
       render: function() {
         let cx = this.context;
