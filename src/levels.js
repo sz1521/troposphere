@@ -54,8 +54,8 @@ const createLevelTwoTowers = level => {
   level.createHouseLayer(false);
   level.backgroundObjects.push(level.createRoof());
 
-  const tower1 = level.createTower(1400, 7);
-  const tower2 = level.createTower(2500, 10);
+  const tower1 = level.createTower(1300, 7);
+  const tower2 = level.createTower(2600, 10);
 
   let portal = createPortal();
   portal.x = tower2.right - tower2.width / 3;
@@ -94,9 +94,9 @@ const createLevelHighTower = level => {
 
   level.backgroundObjects.push(level.createRoof());
 
-  level.createTower(level.width * (1 / 4) + 100, 8);
+  level.createTower(level.width * (1 / 4), 8);
   const tower2 = level.createTower(level.width * (2 / 4), 15);
-  level.createTower(level.width * (3 / 4) - 100, 12);
+  level.createTower(level.width * (3 / 4), 12);
 
   let portal = createPortal();
   portal.x = tower2.x;
