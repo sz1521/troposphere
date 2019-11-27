@@ -34,9 +34,8 @@ const FRAMES_PER_SECOND = 60;
 const TIME_BACK_MAX_SECONDS = 2;
 const TIME_BACK_MAX_FRAMES = TIME_BACK_MAX_SECONDS * FRAMES_PER_SECOND;
 
-const ANTI_GRAVITY_ENERGY_CONSUMPTION = 5;
 const ENEMY_HIT_ENERGY_CONSUMPTION = 1000;
-const TIME_BACK_ENERGY_CONSUMPTION = 35;
+const TIME_BACK_ENERGY_CONSUMPTION = 70;
 
 const consumeTimeTravelEnergy = player => {
   if (
@@ -526,17 +525,12 @@ export class Level {
 
     // The player stays put when moving back in time.
     if (!timeTravelPressed) {
-      if (
-        antiGravityPressed &&
-        this.player.energy >= ANTI_GRAVITY_ENERGY_CONSUMPTION
-      ) {
-        this.player.energy -= ANTI_GRAVITY_ENERGY_CONSUMPTION;
-        this.player.ag = true;
-      } else {
-        this.player.ag = false;
-      }
-
-      this.player.update(this.ladders, this.platforms, camera);
+      this.player.update(
+        this.ladders,
+        this.platforms,
+        camera,
+        antiGravityPressed
+      );
     }
 
     for (let i = 0; i < this.portals.length; i++) {
