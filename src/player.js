@@ -50,6 +50,8 @@ const STATE_DEAD = 3;
 const STATE_SWIRLING = 4;
 
 export const MAX_ENERGY = 10000;
+const ANTI_GRAVITY_ENERGY_CONSUMPTION = 40;
+const ENERGY_REGENERATION_SPEED = 8;
 
 const playerImage = imageFromSvg(playerSvg);
 const playerLeftfootImage = imageFromSvg(playerLeftfootSvg);
@@ -174,12 +176,26 @@ export const createPlayer = level => {
       }
     },
 
-    update(ladders, platforms, camera) {
+    update(ladders, platforms, camera, ag) {
       if (this.state === STATE_DEAD) {
         return;
       }
 
       const now = performance.now();
+
+      if (ag && this.energy >= ANTI_GRAVITY_ENERGY_CONSUMPTION) {
+        this.energy -= ANTI_GRAVITY_ENERGY_CONSUMPTION;
+        this.ag = true;
+      } else {
+        this.ag = false;
+
+        // Regenerate energy
+        if (this.energy < MAX_ENERGY) {
+          const updatedEnergy = this.energy + ENERGY_REGENERATION_SPEED;
+          this.energy =
+            updatedEnergy <= MAX_ENERGY ? updatedEnergy : MAX_ENERGY;
+        }
+      }
 
       if (this.state === STATE_SWIRLING) {
         if (!this.hidden && now - this.swirlingStartTime > 500) {
