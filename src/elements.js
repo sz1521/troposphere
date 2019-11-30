@@ -24,6 +24,9 @@
 
 import { Sprite } from "kontra";
 
+const ladderWidth = 30;
+const ladderHeight = 300;
+
 export const createCloud = (level, y, z, opacity) => {
   return Sprite({
     x: Math.random() * level.width * (5 / 4) - level.width / 4,
@@ -110,37 +113,43 @@ export const createCloud = (level, y, z, opacity) => {
   });
 };
 
+const drawLadder = () => {
+  const stepGap = 15;
+  const stepCount = ladderHeight / stepGap;
+  const color = "rgb(100,60,60)";
+  const color2 = "rgb(80,20,20)";
+
+  const canvas = document.createElement("canvas");
+  canvas.width = ladderWidth;
+  canvas.height = ladderHeight;
+
+  let cx = canvas.getContext("2d");
+  cx.save();
+
+  for (let i = 0; i < stepCount; i++) {
+    cx.fillStyle = color2;
+    cx.fillRect(8, i * stepGap, ladderWidth - 16, stepGap / 2);
+    cx.fillStyle = color;
+    cx.fillRect(0, i * stepGap + stepGap / 2, ladderWidth, stepGap / 2);
+  }
+
+  cx.restore();
+
+  return canvas;
+};
+
+const ladderImage = drawLadder();
+
 export const createLadder = () => {
   return Sprite({
     color: "rgb(100,60,60)",
     color2: "rgb(80,20,20)",
-    width: 30,
-    height: 100,
-    stepGap: 15,
+    width: ladderWidth,
+    height: ladderHeight,
 
     render: function() {
-      const stepCount = this.height / this.stepGap + 1;
       let cx = this.context;
-      cx.save();
-
-      for (let i = 0; i < stepCount; i++) {
-        cx.fillStyle = this.color2;
-        cx.fillRect(
-          this.x + 8,
-          this.y + i * this.stepGap,
-          this.width - 16,
-          this.stepGap / 2
-        );
-        cx.fillStyle = this.color;
-        cx.fillRect(
-          this.x,
-          this.y + i * this.stepGap + this.stepGap / 2,
-          this.width,
-          this.stepGap / 2
-        );
-      }
-
-      cx.restore();
+      cx.drawImage(ladderImage, this.x, this.y);
     }
   });
 };

@@ -215,9 +215,8 @@ export class Level {
     }
   }
 
-  addLadder(platform, height) {
+  addLadder(platform) {
     let ladder = createLadder();
-    ladder.height = height;
     ladder.x = platform.x + 20;
     ladder.y = platform.y;
     this.ladders.push(ladder);
@@ -243,7 +242,7 @@ export class Level {
         platform.y = floorTop;
         this.platforms.push(platform);
 
-        this.addLadder(platform, floorHeight);
+        this.addLadder(platform);
 
         if (random() < 0.7) {
           let enemy = createEnemy(platform);
@@ -262,7 +261,7 @@ export class Level {
         p1.x = floorLeft;
         p1.y = floorTop;
         this.platforms.push(p1);
-        this.addLadder(p1, floorHeight);
+        this.addLadder(p1);
 
         let p2 = createPlatform(false);
         p2.width = lessWidth;
