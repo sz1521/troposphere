@@ -23,6 +23,10 @@
  */
 
 import { Sprite } from "kontra";
+import { imageFromSvg } from "./utils.js";
+import houseSvg from "./images/house.svg";
+
+const houseImage = imageFromSvg(houseSvg);
 
 const ladderWidth = 30;
 const ladderHeight = 300;
@@ -203,6 +207,46 @@ export const createRoof = level => {
       cx.fillStyle = this.color;
       cx.fillRect(this.x, this.y, this.width, this.height);
       cx.restore();
+    }
+  });
+};
+
+const createHouseBackgroundImage = (width, isDouble) => {
+  const height = 300;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+
+  let cx = canvas.getContext("2d");
+  cx.save();
+
+  for (let i = 0; i < width / 10; i++) {
+    const houseHeight = 150 - Math.random() * 100;
+    const x = i * Math.random() * 100;
+    const y = height - houseHeight;
+
+    cx.drawImage(houseImage, x, y);
+
+    if (isDouble) {
+      cx.drawImage(houseImage, x, height - houseHeight * 2);
+    }
+  }
+
+  cx.restore();
+
+  return canvas;
+};
+
+export const createHouseBackground = (width, isDouble) => {
+  const image = createHouseBackgroundImage(width, isDouble);
+
+  return Sprite({
+    width: width,
+    height: image.height,
+
+    render: function() {
+      this.context.drawImage(image, this.x, this.y);
     }
   });
 };

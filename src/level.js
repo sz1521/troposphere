@@ -22,14 +22,15 @@
  * SOFTWARE.
  */
 
-import { Sprite } from "kontra";
 import { playTune } from "./music.js";
-import { imageFromSvg, random } from "./utils.js";
+import { random } from "./utils.js";
 import { createEnemy } from "./enemy.js";
-import { createCloud, createLadder, createPlatform } from "./elements.js";
-import houseSvg from "./images/house.svg";
-
-const houseImage = imageFromSvg(houseSvg);
+import {
+  createCloud,
+  createHouseBackground,
+  createLadder,
+  createPlatform
+} from "./elements.js";
 
 const FRAMES_PER_SECOND = 60;
 const TIME_BACK_MAX_SECONDS = 2;
@@ -187,32 +188,10 @@ export class Level {
   }
 
   createHouseLayer(isDouble) {
-    for (let i = 0; i < this.width / 10; i++) {
-      let house = Sprite({
-        width: 80,
-        height: 150 - Math.random() * 100,
-
-        render: function() {
-          this.context.drawImage(houseImage, this.x, this.y);
-        }
-      });
-      house.x = i * Math.random() * 100;
-      house.y = this.height - house.height;
-      this.backgroundObjects.push(house);
-      if (isDouble) {
-        let house2 = Sprite({
-          width: 80,
-          height: 150 - Math.random() * 100,
-
-          render: function() {
-            this.context.drawImage(houseImage, this.x, this.y);
-          }
-        });
-        house2.x = house.x;
-        house2.y = house.y - house.height;
-        this.backgroundObjects.push(house2);
-      }
-    }
+    const houses = createHouseBackground(this.width, isDouble);
+    houses.x = 0;
+    houses.y = this.height - houses.height;
+    this.backgroundObjects.push(houses);
   }
 
   addLadder(platform) {
