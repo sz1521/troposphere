@@ -26,6 +26,7 @@ import { random } from "./utils.js";
 import { createPlayer } from "./player.js";
 import { createDrone } from "./drone.js";
 import { createPortal } from "./portal.js";
+import { createRoof } from "./elements.js";
 
 const createSimpleLevel = level => {
   level.width = 2000;
@@ -52,7 +53,7 @@ const createLevelTwoTowers = level => {
   level.createCloudLayer(1200, 0.8);
 
   level.createHouseLayer(false);
-  level.backgroundObjects.push(level.createRoof());
+  level.backgroundObjects.push(createRoof(level));
 
   const tower1 = level.createTower(1300, 7);
   const tower2 = level.createTower(2600, 10);
@@ -92,7 +93,7 @@ const createLevelHighTower = level => {
   level.createCloudLayer(4400, 0.7);
   level.createCloudLayer(2200, 0.5);
 
-  level.backgroundObjects.push(level.createRoof());
+  level.backgroundObjects.push(createRoof(level));
 
   level.createTower(level.width * (1 / 4), 8);
   const tower2 = level.createTower(level.width * (2 / 4), 15);
